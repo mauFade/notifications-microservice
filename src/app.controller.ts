@@ -1,4 +1,6 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Notification } from './entities/notification/notification';
+import { CreateNotificationDTO } from './entities/notification/create-notification-dto';
 import { PrismaService } from './prisma.service';
 
 @Controller('notifications')
@@ -6,19 +8,26 @@ export class AppController {
   constructor(private readonly prismaService: PrismaService) {}
 
   @Get()
-  public find() {
-    return this.prismaService.notification.findMany();
+  public async find(): Promise<Notification[]> {
+    const notifications =
+      (await this.prismaService.notification.findMany()) as Notification[];
+
+    return notifications;
   }
 
   @Post('create')
-  public async create() {
-    const notification = await this.prismaService.notification.create({
+  public async create(
+    @Body() body: CreateNotificationDTO,
+  ): Promise<Notification> {
+    const { category, content, recipientId } = body;
+
+    const notification = (await this.prismaService.notification.create({
       data: {
-        category: 'Social',
-        content: 'Nova notificação',
-        recipientId: '1234',
+        category,
+        content,
+        recipientId,
       },
-    });
+    })) as Notification;
 
     return notification;
   }
