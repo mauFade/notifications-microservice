@@ -1,10 +1,11 @@
-import { IsNotEmpty, IsUUID } from 'class-validator';
+import { IsNotEmpty, IsUUID, Length } from 'class-validator';
 
 export class CreateNotificationDTO {
   @IsNotEmpty()
   public category: string;
 
   @IsNotEmpty()
+  @Length(5, 240)
   public content: string;
 
   @IsUUID('4')
