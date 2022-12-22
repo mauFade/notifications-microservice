@@ -1,5 +1,5 @@
-import { Replace } from '../../../utils/replace';
-import { Content } from '../content/content';
+import { Replace } from '../../../../../utils/replace';
+import { Content } from '../../../content/content';
 
 interface NotificationProps {
   recipientId: string;
@@ -52,4 +52,8 @@ export class Notification {
   public get read_at(): Date {
     return this.props.read_at;
   }
+}
+
+export abstract class INotificationRepository {
+  abstract create(data: Notification): Promise<Notification>;
 }

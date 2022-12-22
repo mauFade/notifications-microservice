@@ -1,5 +1,5 @@
 import { Content } from '../../../src/app/entities/content/content';
-import { Notification } from '../../../src/app/entities/notification/notification';
+import { Notification } from '../../../src/app/entities/notification/database/entitites/notification';
 import { randomUUID } from 'crypto';
 
 describe('Notification tests', () => {
