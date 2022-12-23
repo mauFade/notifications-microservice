@@ -1,4 +1,5 @@
 import { PrismaService } from '../../../../../infra/database/prisma.service';
+import { INotification } from '../../dtos/notification';
 import {
   INotificationRepository,
   Notification,
@@ -11,17 +12,24 @@ export class NotificationRepository implements INotificationRepository {
     category,
     content,
     recipientId,
-  }: Notification): Promise<Notification> {
+  }: Notification): Promise<INotification> {
     const notificationContent = content.value;
 
-    const notification = (await this.prismaService.notification.create({
+    const notification = await this.prismaService.notification.create({
       data: {
         category,
         content: notificationContent,
         recipientId,
       },
-    })) as unknown as Notification;
+    });
 
-    return notification;
+    return {
+      id: notification.id,
+      category: notification.category,
+      content: notification.content,
+      recipientId: notification.recipientId,
+      created_at: notification.created_at,
+      read_at: notification.read_at,
+    };
   }
 }

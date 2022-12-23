@@ -3,6 +3,7 @@ import {
   INotificationRepository,
   Notification,
 } from '../database/entitites/notification';
+import { INotification } from '../dtos/notification';
 
 interface IRequest {
   content: string;
@@ -17,7 +18,7 @@ export class CreateNotificationService {
     category,
     content,
     recipientId,
-  }: IRequest): Promise<Notification> {
+  }: IRequest): Promise<INotification> {
     const newContent = new Content(content);
 
     const notification = new Notification({
@@ -26,8 +27,8 @@ export class CreateNotificationService {
       recipientId,
     });
 
-    await this.notificationsRepository.create(notification);
+    const data = await this.notificationsRepository.create(notification);
 
-    return notification;
+    return data;
   }
 }

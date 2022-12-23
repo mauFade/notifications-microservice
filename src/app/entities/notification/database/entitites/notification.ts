@@ -1,5 +1,6 @@
 import { Replace } from '../../../../../utils/replace';
 import { Content } from '../../../content/content';
+import { INotification } from '../../dtos/notification';
 
 interface NotificationProps {
   recipientId: string;
@@ -55,5 +56,5 @@ export class Notification {
 }
 
 export abstract class INotificationRepository {
-  abstract create(data: Notification): Promise<Notification>;
+  abstract create(data: Notification): Promise<INotification>;
 }
